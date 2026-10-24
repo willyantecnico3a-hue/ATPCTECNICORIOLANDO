@@ -272,6 +272,7 @@
                 <option value="Willyan Vieira da Cruz">Willyan Vieira da Cruz</option>
                 <option value="Rosana Pereira De Oliveira">Rosana Pereira De Oliveira</option>
               </select>
+              <p class="field-help">Curso: <span id="paeet-course"></span></p>
             </div>
             <div class="other-teacher">
               <label for="other-teacher-enabled"><input id="other-teacher-enabled" type="checkbox" name="otherTeacherEnabled"> Outro</label>
@@ -303,7 +304,7 @@
         <div class="print-address">R. Tapuias, 509 - Conceição, Diadema - SP, 09990-280 | Telefone: (11) 4056-7092</div>
       </div>
     </div>
-    <h1 class="print-title">ATPC - Ensino Técnico Desenvolvimento de Sistemas</h1>
+    <h1 class="print-title" id="print-title">ATPC - Ensino Técnico Desenvolvimento de Sistemas</h1>
     <p class="print-subtitle">PAEET: <span id="print-paeet"></span></p>
     <table class="print-table">
       <tbody>
@@ -330,6 +331,7 @@
       const saveStatus = document.getElementById("save-status");
       const otherTeacherEnabled = document.getElementById("other-teacher-enabled");
       const otherTeacherInput = document.getElementById("other-teacher");
+      const paeetInput = document.getElementById("paeet");
       const storagePrefix = "atpc-riolando-draft-v1:";
       const fieldNames = ["theme", "atpcCount", "atpcHours", "agenda", "alignment", "minutes", "followUp", "otherTeacher", "paeet"];
       let activeDraftDate = "";
@@ -430,6 +432,14 @@
         document.getElementById(id).textContent = value.trim() || emptyText;
       };
 
+      const courseNameForPaeet = () => paeetInput.value === "Rosana Pereira De Oliveira"
+        ? "Ensino Técnico em Vendas/Técnico em Logística"
+        : "Ensino Técnico Desenvolvimento de Sistemas";
+
+      const updatePaeetCourse = () => {
+        document.getElementById("paeet-course").textContent = courseNameForPaeet();
+      };
+
       const selectedTeachers = () => {
         const teachers = Array.from(form.querySelectorAll('input[name="teacher"]:checked'), (input) => input.value);
         const extra = otherTeacherEnabled.checked ? otherTeacherInput.value.trim() : "";
@@ -445,6 +455,7 @@
         const hours = form.elements.namedItem("atpcHours").value.trim();
         addPrintText("print-date", formatLongDate(dateInput.value));
         addPrintText("print-paeet", form.elements.namedItem("paeet").value);
+        addPrintText("print-title", `ATPC - ${courseNameForPaeet()}`);
         addPrintText("print-theme", form.elements.namedItem("theme").value);
         addPrintText("print-agenda", form.elements.namedItem("agenda").value);
         addPrintText("print-hours", [count && `${count} ATPC(s)`, hours && `${hours} hora(s)`].filter(Boolean).join(" · "));
@@ -483,6 +494,8 @@
 
       dateInput.value = getLocalDate();
       loadDraft(dateInput.value);
+      updatePaeetCourse();
+      paeetInput.addEventListener("change", updatePaeetCourse);
       dateInput.addEventListener("change", () => {
         saveDraft(activeDraftDate);
         loadDraft(dateInput.value);
@@ -523,7 +536,7 @@
         const teachers = selectedTeachers();
         const subject = `Ata de ATPC - ${formatLongDate(dateInput.value)}`;
         const body = [
-          "ATPC - Ensino Técnico Desenvolvimento de Sistemas",
+          `ATPC - ${courseNameForPaeet()}`,
           `EE PEI Professor Riolando Canno · ${formatLongDate(dateInput.value)}`,
           `PAEET: ${form.elements.namedItem("paeet").value}`,
           `Tema: ${form.elements.namedItem("theme").value || "—"}`,
