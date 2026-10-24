@@ -36,11 +36,7 @@
     }
     .topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
     .brand { display: flex; align-items: center; gap: 14px; }
-    .brand-mark {
-      width: 46px; height: 46px; display: grid; place-items: center; flex: none;
-      border: 1px solid #ffffff66; border-radius: 13px; color: #fff;
-      font-size: 14px; font-weight: 850; letter-spacing: -.04em;
-    }
+    .brand-crest { width: 52px; height: 52px; flex: none; border-radius: 8px; object-fit: contain; background: #fff; }
     .brand strong { display: block; font-size: 15px; letter-spacing: .035em; }
     .brand span { display: block; margin-top: 3px; color: #d4e3f8; font-size: 12px; }
     .topbar-note { color: #d4e3f8; font-size: 12px; }
@@ -67,14 +63,14 @@
     .field.full { grid-column: 1 / -1; }
     label, .field-label { display: block; margin-bottom: 7px; color: #34445a; font-size: 12px; font-weight: 720; }
     .optional { color: #8793a3; font-weight: 450; }
-    input[type="text"], input[type="date"], input[type="number"], textarea {
+    input[type="text"], input[type="date"], input[type="number"], select, textarea {
       width: 100%; border: 1px solid #d4deea; border-radius: 8px; background: #fff;
       color: var(--ink); padding: 10px 11px; outline: none; transition: border-color .15s, box-shadow .15s;
     }
-    input[type="text"], input[type="date"], input[type="number"] { min-height: 42px; }
+    input[type="text"], input[type="date"], input[type="number"], select { min-height: 42px; }
     textarea { min-height: 106px; resize: vertical; line-height: 1.55; }
     textarea.tall { min-height: 145px; }
-    input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px #2769bb1a; }
+    input:focus, select:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px #2769bb1a; }
     .field-help { margin: 6px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
     .date-description { margin-top: 8px; color: var(--blue); font-size: 12px; font-weight: 700; }
     .hours { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -92,6 +88,7 @@
     }
     .teacher-option:has(input:checked) { border-color: #8fb4e4; background: #f3f8ff; }
     .teacher-option input { width: 15px; height: 15px; margin: 0; accent-color: var(--blue); }
+    .paeet-field { margin-top: 16px; }
     .other-teacher { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: center; margin-top: 11px; }
     .other-teacher label { margin: 0; display: flex; gap: 8px; align-items: center; font-size: 12px; }
     .other-teacher input[type="checkbox"] { accent-color: var(--blue); }
@@ -138,7 +135,7 @@
       body > * { display: none !important; }
       #print-document { display: block !important; font-family: Arial, Helvetica, sans-serif; font-size: 10pt; }
       .print-head { display: grid; grid-template-columns: 55px 1fr; gap: 12px; align-items: center; margin-bottom: 12px; }
-      .print-mark { width: 51px; height: 51px; display: grid; place-items: center; border: 2px solid #17477c; color: #17477c; font-size: 16px; font-weight: 800; letter-spacing: -.06em; }
+      .print-crest { width: 55px; height: 55px; object-fit: contain; }
       .print-agency { color: #17477c; font-size: 8pt; font-weight: 700; letter-spacing: .035em; }
       .print-school { margin-top: 3px; font-size: 10pt; font-weight: 700; }
       .print-address { margin-top: 3px; font-size: 8pt; }
@@ -153,6 +150,7 @@
       .print-signatures { width: 100%; border-collapse: collapse; table-layout: fixed; }
       .print-signatures td { width: 50%; height: 72px; padding: 8px 12px 5px; text-align: center; vertical-align: bottom; }
       .signature-line { display: block; padding-top: 5px; border-top: 1px solid #222; font-size: 8pt; }
+      .signature-role { display: block; font-size: 7pt; }
       .print-footer { margin-top: 8px; text-align: right; font-size: 7pt; color: #444; }
       * { print-color-adjust: exact !important; -webkit-print-color-adjust: exact !important; }
     }
@@ -162,7 +160,7 @@
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand">
-        <div class="brand-mark" aria-hidden="true">SP</div>
+        <img class="brand-crest" src="brasao-sp.png" alt="Brasão do Estado de São Paulo">
         <div>
           <strong>SECRETARIA DA EDUCAÇÃO</strong>
           <span>Estado de São Paulo · Registro de ATPC</span>
@@ -259,22 +257,27 @@
           <div class="field">
             <span class="field-label">Professores participantes</span>
             <div class="teacher-list">
-              <label class="teacher-option"><input type="checkbox" name="teacher" value="Jeronimo"> Jeronimo</label>
-              <label class="teacher-option"><input type="checkbox" name="teacher" value="Gilberto"> Gilberto</label>
-              <label class="teacher-option"><input type="checkbox" name="teacher" value="Mauro"> Mauro</label>
-              <label class="teacher-option"><input type="checkbox" name="teacher" value="Ana Paula"> Ana Paula</label>
-              <label class="teacher-option"><input type="checkbox" name="teacher" value="Eduardo Adriano dos Santos"> Eduardo Adriano dos Santos</label>
-              <label class="teacher-option"><input type="checkbox" name="teacher" value="Rosana"> Rosana</label>
-              <label class="teacher-option"><input type="checkbox" name="teacher" value="Willyan"> Willyan</label>
-              <label class="teacher-option"><input type="checkbox" name="teacher" value="Rafaela"> Rafaela</label>
-              <label class="teacher-option"><input type="checkbox" name="teacher" value="Alexandre"> Alexandre</label>
-              <label class="teacher-option"><input type="checkbox" name="teacher" value="Jefferson"> Jefferson</label>
+              <label class="teacher-option"><input type="checkbox" name="teacher" value="Rosana Pereira De Oliveira"> Rosana Pereira De Oliveira</label>
+              <label class="teacher-option"><input type="checkbox" name="teacher" value="Ana Paula Zanetti Neves"> Ana Paula Zanetti Neves</label>
+              <label class="teacher-option"><input type="checkbox" name="teacher" value="Alexandre Balsanuf Cruz"> Alexandre Balsanuf Cruz</label>
+              <label class="teacher-option"><input type="checkbox" name="teacher" value="Gilberto Furtado Da Silva Gaspar Junior"> Gilberto Furtado Da Silva Gaspar Junior</label>
+              <label class="teacher-option"><input type="checkbox" name="teacher" value="Jerônimo Alves Soares Neto"> Jerônimo Alves Soares Neto</label>
+              <label class="teacher-option"><input type="checkbox" name="teacher" value="Mauro De Deus Neiva Brandao"> Mauro De Deus Neiva Brandao</label>
+              <label class="teacher-option"><input type="checkbox" name="teacher" value="Rafaela Almeida E Silva"> Rafaela Almeida E Silva</label>
+              <label class="teacher-option"><input type="checkbox" name="teacher" value="Jeferson Luis Ligeiro"> Jeferson Luis Ligeiro</label>
+            </div>
+            <div class="field paeet-field">
+              <label for="paeet">PAEET responsável pela reunião</label>
+              <select id="paeet" name="paeet" required>
+                <option value="Willyan Vieira da Cruz">Willyan Vieira da Cruz</option>
+                <option value="Rosana Pereira De Oliveira">Rosana Pereira De Oliveira</option>
+              </select>
             </div>
             <div class="other-teacher">
               <label for="other-teacher-enabled"><input id="other-teacher-enabled" type="checkbox" name="otherTeacherEnabled"> Outro</label>
               <input id="other-teacher" name="otherTeacher" type="text" placeholder="Nome do(a) professor(a)" disabled>
             </div>
-            <p class="field-help">Direção Escolar, Coordenação Pedagógica e PAEET também serão incluídos na folha de assinaturas.</p>
+            <p class="field-help">Direção, coordenação pedagógica e PAEET selecionado também serão incluídos na folha de assinaturas.</p>
           </div>
         </section>
       </form>
@@ -293,7 +296,7 @@
 
   <section id="print-document" class="print-document" aria-label="Ata de ATPC para impressão">
     <div class="print-head">
-      <div class="print-mark" aria-hidden="true">SP</div>
+      <img class="print-crest" src="brasao-sp.png" alt="Brasão do Estado de São Paulo">
       <div>
         <div class="print-agency">DIRETORIA DE ENSINO DE REGIÃO DE DIADEMAS</div>
         <div class="print-school">ESCOLA ESTADUAL PEI PROFESSOR RIOLANDO CANNO</div>
@@ -301,7 +304,7 @@
       </div>
     </div>
     <h1 class="print-title">ATPC - Ensino Técnico Desenvolvimento de Sistemas</h1>
-    <p class="print-subtitle">PAEET: WILLYAN VIEIRA DA CRUZ</p>
+    <p class="print-subtitle">PAEET: <span id="print-paeet"></span></p>
     <table class="print-table">
       <tbody>
         <tr><th>Data</th><td id="print-date" class="print-content"></td></tr>
@@ -328,7 +331,7 @@
       const otherTeacherEnabled = document.getElementById("other-teacher-enabled");
       const otherTeacherInput = document.getElementById("other-teacher");
       const storagePrefix = "atpc-riolando-draft-v1:";
-      const fieldNames = ["theme", "atpcCount", "atpcHours", "agenda", "alignment", "minutes", "followUp", "otherTeacher"];
+      const fieldNames = ["theme", "atpcCount", "atpcHours", "agenda", "alignment", "minutes", "followUp", "otherTeacher", "paeet"];
       let activeDraftDate = "";
       let loadingDraft = false;
 
@@ -394,7 +397,20 @@
               const field = form.elements.namedItem(name);
               if (field && typeof value === "string") field.value = value;
             }
-            const selectedTeachers = new Set(Array.isArray(draft.teachers) ? draft.teachers : []);
+            const legacyTeacherNames = {
+              "Ana Paula": "Ana Paula Zanetti Neves",
+              "Alexandre": "Alexandre Balsanuf Cruz",
+              "Gilberto": "Gilberto Furtado Da Silva Gaspar Junior",
+              "Jeronimo": "Jerônimo Alves Soares Neto",
+              "Mauro": "Mauro De Deus Neiva Brandao",
+              "Rosana": "Rosana Pereira De Oliveira",
+              "Rafaela": "Rafaela Almeida E Silva",
+              "Jefferson": "Jeferson Luis Ligeiro"
+            };
+            const selectedTeachers = new Set(
+              (Array.isArray(draft.teachers) ? draft.teachers : [])
+                .map((name) => legacyTeacherNames[name] || name)
+            );
             for (const checkbox of form.querySelectorAll('input[name="teacher"]')) {
               checkbox.checked = selectedTeachers.has(checkbox.value);
             }
@@ -428,6 +444,7 @@
         const count = form.elements.namedItem("atpcCount").value.trim();
         const hours = form.elements.namedItem("atpcHours").value.trim();
         addPrintText("print-date", formatLongDate(dateInput.value));
+        addPrintText("print-paeet", form.elements.namedItem("paeet").value);
         addPrintText("print-theme", form.elements.namedItem("theme").value);
         addPrintText("print-agenda", form.elements.namedItem("agenda").value);
         addPrintText("print-hours", [count && `${count} ATPC(s)`, hours && `${hours} hora(s)`].filter(Boolean).join(" · "));
@@ -437,20 +454,25 @@
         addPrintText("print-teachers", teachers.join(", "));
 
         const signatories = [
-          "Direção Escolar",
-          "Coordenação Pedagógica",
-          "PAEET · Willyan Vieira da Cruz",
-          ...teachers.map((name) => `Professor(a) · ${name}`)
+          { name: "Maria Aparecida Frizao Silva", role: "Diretor(a)" },
+          { name: "Erica Aparecida Almeida Sampaio", role: "Coordenador(a)" },
+          { name: form.elements.namedItem("paeet").value, role: "PAEET" },
+          ...teachers.map((name) => ({ name, role: "Professor(a)" }))
         ];
         const rows = document.getElementById("print-signature-rows");
         rows.replaceChildren();
         for (let index = 0; index < signatories.length; index += 2) {
           const row = document.createElement("tr");
-          for (const name of signatories.slice(index, index + 2)) {
+          for (const signatory of signatories.slice(index, index + 2)) {
             const cell = document.createElement("td");
             const line = document.createElement("span");
             line.className = "signature-line";
-            line.textContent = name;
+            const name = document.createElement("span");
+            name.textContent = signatory.name;
+            const role = document.createElement("span");
+            role.className = "signature-role";
+            role.textContent = signatory.role;
+            line.append(name, role);
             cell.append(line);
             row.append(cell);
           }
@@ -503,6 +525,7 @@
         const body = [
           "ATPC - Ensino Técnico Desenvolvimento de Sistemas",
           `EE PEI Professor Riolando Canno · ${formatLongDate(dateInput.value)}`,
+          `PAEET: ${form.elements.namedItem("paeet").value}`,
           `Tema: ${form.elements.namedItem("theme").value || "—"}`,
           `Pauta: ${form.elements.namedItem("agenda").value || "—"}`,
           `Participantes: ${teachers.join(", ") || "—"}`,
