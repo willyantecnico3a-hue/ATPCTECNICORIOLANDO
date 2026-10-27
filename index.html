@@ -97,6 +97,14 @@
     .side-card h2 { margin: 0 0 8px; color: var(--navy-deep); font-size: 15px; }
     .side-card > p { margin: 0 0 16px; color: var(--muted); font-size: 12px; line-height: 1.55; }
     .side-rule { height: 1px; margin: 16px 0; background: var(--line); }
+    .settings-card { margin-bottom: 20px; padding: 18px 22px; }
+    .settings-card summary { color: var(--navy-deep); font-size: 14px; font-weight: 750; cursor: pointer; }
+    .settings-card summary::marker { color: var(--blue); }
+    .settings-content { padding-top: 18px; }
+    .settings-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
+    .settings-actions .action-button { width: auto; min-width: 180px; }
+    .settings-status { margin-top: 12px; }
+    .settings-content textarea { min-height: 120px; }
     .status { display: flex; align-items: center; gap: 8px; color: var(--green); font-size: 11px; line-height: 1.45; }
     .status::before { content: ""; width: 7px; height: 7px; flex: none; border-radius: 50%; background: currentColor; }
     .status.error { color: #ad3737; }
@@ -123,6 +131,7 @@
       .topbar-note { display: none; }
       main { margin: 20px auto 38px; padding: 0 14px; }
       .card { padding: 18px 15px; }
+      .settings-card { padding: 16px 15px; }
       .grid { grid-template-columns: 1fr; gap: 15px; }
       .field.full { grid-column: auto; }
       .teacher-list { grid-template-columns: 1fr; }
@@ -166,7 +175,7 @@
           <span>Estado de São Paulo · Registro de ATPC</span>
         </div>
       </div>
-      <div class="topbar-note">EE PEI Professor Riolando Canno</div>
+      <div class="topbar-note" id="site-school-short">EE PEI Professor Riolando Canno</div>
     </div>
   </header>
 
@@ -175,6 +184,52 @@
       <h1>Registro diário de ATPC</h1>
       <p>Preencha a ata e prepare uma versão organizada para impressão, assinatura ou envio.</p>
     </div>
+
+    <details class="card settings-card">
+      <summary>Personalizar para minha escola e salvar preferências</summary>
+      <div class="settings-content">
+        <p class="field-help">As preferências ficam salvas neste navegador e dispositivo. Para usar em outro aparelho, configure novamente. As atas continuam organizadas por data.</p>
+        <div class="grid">
+          <div class="field">
+            <label for="setting-school">Nome da escola</label>
+            <input id="setting-school" type="text" required>
+          </div>
+          <div class="field">
+            <label for="setting-paeet">Nome do(a) PAEET responsável</label>
+            <input id="setting-paeet" type="text" required>
+          </div>
+          <div class="field">
+            <label for="setting-course">Curso / área técnica</label>
+            <input id="setting-course" type="text" required>
+          </div>
+          <div class="field">
+            <label for="setting-region">Diretoria de Ensino</label>
+            <input id="setting-region" type="text">
+          </div>
+          <div class="field full">
+            <label for="setting-address">Endereço e telefone da escola</label>
+            <input id="setting-address" type="text">
+          </div>
+          <div class="field">
+            <label for="setting-director">Nome do(a) diretor(a)</label>
+            <input id="setting-director" type="text">
+          </div>
+          <div class="field">
+            <label for="setting-coordinator">Nome do(a) coordenador(a)</label>
+            <input id="setting-coordinator" type="text">
+          </div>
+          <div class="field full">
+            <label for="setting-teachers">Professores disponíveis (um nome por linha)</label>
+            <textarea id="setting-teachers"></textarea>
+          </div>
+        </div>
+        <div class="settings-actions">
+          <button class="action-button" id="save-settings" type="button">Salvar minhas preferências</button>
+          <button class="action-button secondary" id="reset-settings" type="button">Restaurar configuração original</button>
+        </div>
+        <div class="status settings-status" id="settings-status" role="status" aria-live="polite">Configuração original carregada.</div>
+      </div>
+    </details>
 
     <div class="layout">
       <form class="form-column" id="atpc-form">
@@ -269,10 +324,7 @@
             </div>
             <div class="field paeet-field">
               <label for="paeet">PAEET responsável pela reunião</label>
-              <select id="paeet" name="paeet" required>
-                <option value="Willyan Vieira da Cruz">Willyan Vieira da Cruz</option>
-                <option value="Rosana Pereira De Oliveira">Rosana Pereira De Oliveira</option>
-              </select>
+              <input id="paeet" name="paeet" type="text" required>
               <p class="field-help">Curso: <span id="paeet-course"></span></p>
             </div>
             <div class="other-teacher">
@@ -300,9 +352,9 @@
     <div class="print-head">
       <img class="print-crest" src="brasao-sp.png" alt="Brasão do Estado de São Paulo">
       <div>
-        <div class="print-agency">DIRETORIA DE ENSINO DE REGIÃO DE DIADEMAS</div>
-        <div class="print-school">ESCOLA ESTADUAL PEI PROFESSOR RIOLANDO CANNO</div>
-        <div class="print-address">R. Tapuias, 509 - Conceição, Diadema - SP, 09990-280 | Telefone: (11) 4056-7092</div>
+        <div class="print-agency" id="print-agency">DIRETORIA DE ENSINO DE REGIÃO DE DIADEMAS</div>
+        <div class="print-school" id="print-school">ESCOLA ESTADUAL PEI PROFESSOR RIOLANDO CANNO</div>
+        <div class="print-address" id="print-address">R. Tapuias, 509 - Conceição, Diadema - SP, 09990-280 | Telefone: (11) 4056-7092</div>
       </div>
     </div>
     <h1 class="print-title" id="print-title">ATPC - Ensino Técnico Desenvolvimento de Sistemas</h1>
@@ -321,7 +373,7 @@
     </table>
     <h2 class="print-signatures-title">Assinaturas</h2>
     <table class="print-signatures"><tbody id="print-signature-rows"></tbody></table>
-    <div class="print-footer">EE PEI Professor Riolando Canno · Registro de ATPC</div>
+    <div class="print-footer" id="print-footer">EE PEI Professor Riolando Canno · Registro de ATPC</div>
   </section>
 
   <script>
@@ -334,9 +386,51 @@
       const otherTeacherInput = document.getElementById("other-teacher");
       const paeetInput = document.getElementById("paeet");
       const storagePrefix = "atpc-riolando-draft-v1:";
+      const settingsStorageKey = "atpc-riolando-settings-v1";
       const fieldNames = ["theme", "atpcCount", "atpcHours", "agenda", "alignment", "minutes", "followUp", "otherTeacher", "paeet"];
+      const defaultSettings = {
+        schoolName: "EE PEI Professor Riolando Canno",
+        paeetName: "Willyan Vieira da Cruz",
+        courseName: "Ensino Técnico Desenvolvimento de Sistemas",
+        regionName: "DIRETORIA DE ENSINO DE REGIÃO DE DIADEMAS",
+        schoolAddress: "R. Tapuias, 509 - Conceição, Diadema - SP, 09990-280 | Telefone: (11) 4056-7092",
+        directorName: "Maria Aparecida Frizao Silva",
+        coordinatorName: "Erica Aparecida Almeida Sampaio",
+        teacherNames: [
+          "Rosana Pereira De Oliveira",
+          "Ana Paula Zanetti Neves",
+          "Alexandre Balsanuf Cruz",
+          "Gilberto Furtado Da Silva Gaspar Junior",
+          "Jerônimo Alves Soares Neto",
+          "Mauro De Deus Neiva Brandao",
+          "Rafaela Almeida E Silva",
+          "Jeferson Luis Ligeiro",
+          "Willyan Vieira da Cruz"
+        ].join("\n")
+      };
+      const settingInputs = {
+        schoolName: document.getElementById("setting-school"),
+        paeetName: document.getElementById("setting-paeet"),
+        courseName: document.getElementById("setting-course"),
+        regionName: document.getElementById("setting-region"),
+        schoolAddress: document.getElementById("setting-address"),
+        directorName: document.getElementById("setting-director"),
+        coordinatorName: document.getElementById("setting-coordinator"),
+        teacherNames: document.getElementById("setting-teachers")
+      };
+      let settings = { ...defaultSettings };
       let activeDraftDate = "";
       let loadingDraft = false;
+
+      const getDraftStorageKey = (date) => {
+        const usesOriginalProfile = settings.schoolName === defaultSettings.schoolName
+          && settings.paeetName === defaultSettings.paeetName;
+        if (usesOriginalProfile) return storagePrefix + date;
+        const profile = [settings.schoolName, settings.paeetName]
+          .map((value) => encodeURIComponent(value.toLocaleLowerCase("pt-BR")))
+          .join(":");
+        return `atpc-riolando-draft-v2:${profile}:${date}`;
+      };
 
       const getLocalDate = () => {
         const now = new Date();
@@ -359,6 +453,95 @@
         saveStatus.classList.toggle("error", isError);
       };
 
+      const setSettingsStatus = (message, isError) => {
+        const status = document.getElementById("settings-status");
+        status.textContent = message;
+        status.classList.toggle("error", isError);
+      };
+
+      const loadSettings = () => {
+        try {
+          const saved = localStorage.getItem(settingsStorageKey);
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            for (const name of Object.keys(defaultSettings)) {
+              if (typeof parsed[name] === "string") settings[name] = parsed[name];
+            }
+          }
+        } catch (error) {
+          setSettingsStatus("Não foi possível carregar as preferências salvas.", true);
+          console.error("Falha ao carregar as preferências do site:", error);
+        }
+        for (const [name, input] of Object.entries(settingInputs)) {
+          input.value = settings[name];
+        }
+      };
+
+      const renderTeachers = () => {
+        const teacherList = form.querySelector(".teacher-list");
+        const checkedNames = new Set(
+          Array.from(teacherList.querySelectorAll('input[name="teacher"]:checked'), (input) => input.value)
+        );
+        const names = settings.teacherNames.split(/\r?\n/)
+          .map((name) => name.trim())
+          .filter((name, index, list) => name && list.findIndex(
+            (candidate) => candidate.toLocaleLowerCase("pt-BR") === name.toLocaleLowerCase("pt-BR")
+          ) === index);
+        teacherList.replaceChildren();
+        for (const name of names) {
+          const label = document.createElement("label");
+          label.className = "teacher-option";
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.name = "teacher";
+          checkbox.value = name;
+          checkbox.checked = checkedNames.has(name);
+          label.append(checkbox, document.createTextNode(` ${name}`));
+          teacherList.append(label);
+        }
+      };
+
+      const applySettings = (previousPaeetName = "") => {
+        document.title = `Atas de ATPC | ${settings.schoolName}`;
+        document.getElementById("site-school-short").textContent = settings.schoolName;
+        document.getElementById("print-agency").textContent = settings.regionName;
+        const printSchoolName = settings.schoolName === defaultSettings.schoolName
+          ? "ESCOLA ESTADUAL PEI PROFESSOR RIOLANDO CANNO"
+          : settings.schoolName;
+        document.getElementById("print-school").textContent = printSchoolName;
+        document.getElementById("print-address").textContent = settings.schoolAddress;
+        document.getElementById("print-address").hidden = !settings.schoolAddress.trim();
+        document.getElementById("print-footer").textContent = `${settings.schoolName} · Registro de ATPC`;
+        if (!paeetInput.value || paeetInput.value === previousPaeetName) {
+          paeetInput.value = settings.paeetName;
+        }
+        renderTeachers();
+        updatePaeetCourse();
+      };
+
+      const saveSettings = () => {
+        const requiredSettings = [settingInputs.schoolName, settingInputs.paeetName, settingInputs.courseName];
+        if (requiredSettings.some((input) => !input.value.trim())) {
+          setSettingsStatus("Informe o nome da escola, do(a) PAEET e do curso para salvar.", true);
+          requiredSettings.find((input) => !input.value.trim()).focus();
+          return;
+        }
+        saveDraft(activeDraftDate);
+        const previousPaeetName = settings.paeetName;
+        for (const [name, input] of Object.entries(settingInputs)) {
+          settings[name] = input.value.trim();
+        }
+        applySettings(previousPaeetName);
+        loadDraft(activeDraftDate);
+        try {
+          localStorage.setItem(settingsStorageKey, JSON.stringify(settings));
+          setSettingsStatus("Preferências salvas neste navegador.", false);
+        } catch (error) {
+          setSettingsStatus("Não foi possível salvar as preferências neste navegador.", true);
+          console.error("Falha ao salvar as preferências do site:", error);
+        }
+      };
+
       const updateDateDescription = () => {
         dateDescription.textContent = formatLongDate(dateInput.value);
       };
@@ -372,7 +555,7 @@
       const saveDraft = (date) => {
         if (!date || loadingDraft) return;
         try {
-          localStorage.setItem(storagePrefix + date, JSON.stringify(collectDraft()));
+          localStorage.setItem(getDraftStorageKey(date), JSON.stringify(collectDraft()));
           setSaveStatus("Rascunho salvo neste dispositivo.", false);
         } catch (error) {
           setSaveStatus("Não foi possível salvar o rascunho neste navegador.", true);
@@ -384,11 +567,12 @@
         loadingDraft = true;
         form.reset();
         dateInput.value = date;
+        paeetInput.value = settings.paeetName;
         otherTeacherEnabled.checked = false;
         otherTeacherInput.disabled = true;
         let saved = null;
         try {
-          saved = localStorage.getItem(storagePrefix + date);
+          saved = localStorage.getItem(getDraftStorageKey(date));
         } catch (error) {
           setSaveStatus("Não foi possível acessar o armazenamento deste navegador.", true);
           console.error("Falha ao acessar o rascunho da ATPC:", error);
@@ -433,9 +617,7 @@
         document.getElementById(id).textContent = value.trim() || emptyText;
       };
 
-      const courseNameForPaeet = () => paeetInput.value === "Rosana Pereira De Oliveira"
-        ? "Ensino Técnico em Vendas/Técnico em Logística"
-        : "Ensino Técnico Desenvolvimento de Sistemas";
+      const courseNameForPaeet = () => settings.courseName;
 
       const updatePaeetCourse = () => {
         document.getElementById("paeet-course").textContent = courseNameForPaeet();
@@ -466,11 +648,11 @@
         addPrintText("print-teachers", teachers.join(", "));
 
         const signatories = [
-          { name: "Maria Aparecida Frizao Silva", role: "Diretor(a)" },
-          { name: "Erica Aparecida Almeida Sampaio", role: "Coordenador(a)" },
+          { name: settings.directorName, role: "Diretor(a)" },
+          { name: settings.coordinatorName, role: "Coordenador(a)" },
           { name: form.elements.namedItem("paeet").value, role: "PAEET" },
           ...teachers.map((name) => ({ name, role: "Professor(a)" }))
-        ];
+        ].filter((signatory) => signatory.name.trim());
         const rows = document.getElementById("print-signature-rows");
         rows.replaceChildren();
         for (let index = 0; index < signatories.length; index += 2) {
@@ -493,10 +675,30 @@
         }
       };
 
+      loadSettings();
+      applySettings();
       dateInput.value = getLocalDate();
       loadDraft(dateInput.value);
       updatePaeetCourse();
       paeetInput.addEventListener("change", updatePaeetCourse);
+      document.getElementById("save-settings").addEventListener("click", saveSettings);
+      document.getElementById("reset-settings").addEventListener("click", () => {
+        saveDraft(activeDraftDate);
+        const previousPaeetName = settings.paeetName;
+        settings = { ...defaultSettings };
+        for (const [name, input] of Object.entries(settingInputs)) {
+          input.value = settings[name];
+        }
+        applySettings(previousPaeetName);
+        loadDraft(activeDraftDate);
+        try {
+          localStorage.setItem(settingsStorageKey, JSON.stringify(settings));
+          setSettingsStatus("Configuração original restaurada e salva neste navegador.", false);
+        } catch (error) {
+          setSettingsStatus("A configuração original foi aplicada, mas não pôde ser salva neste navegador.", true);
+          console.error("Falha ao restaurar as preferências do site:", error);
+        }
+      });
       dateInput.addEventListener("change", () => {
         saveDraft(activeDraftDate);
         loadDraft(dateInput.value);
@@ -538,7 +740,7 @@
         const subject = `Ata de ATPC - ${formatLongDate(dateInput.value)}`;
         const body = [
           `ATPC - ${courseNameForPaeet()}`,
-          `EE PEI Professor Riolando Canno · ${formatLongDate(dateInput.value)}`,
+          `${settings.schoolName} · ${formatLongDate(dateInput.value)}`,
           `PAEET: ${form.elements.namedItem("paeet").value}`,
           `Tema: ${form.elements.namedItem("theme").value || "—"}`,
           `Pauta: ${form.elements.namedItem("agenda").value || "—"}`,

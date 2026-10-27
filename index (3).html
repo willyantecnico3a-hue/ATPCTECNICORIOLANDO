@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#113b71">
+  <title>Atas de ATPC | EE PEI Professor Riolando Canno</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --navy: #113b71;
+      --navy-deep: #0b2850;
+      --blue: #2769bb;
+      --blue-pale: #edf4fd;
+      --ink: #19263a;
+      --muted: #68778b;
+      --line: #dce4ee;
+      --surface: #fff;
+      --canvas: #f3f6fa;
+      --green: #24794d;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--canvas); }
+    button, input, textarea { font: inherit; }
+    button { cursor: pointer; }
+
+    .topbar {
+      color: #fff;
+      background: linear-gradient(118deg, var(--navy-deep), var(--navy) 65%, #1e5798);
+      padding: 23px max(24px, calc((100% - 1160px) / 2));
+    }
+    .topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .brand-crest { width: 52px; height: 52px; flex: none; border-radius: 8px; object-fit: contain; background: #fff; }
+    .brand strong { display: block; font-size: 15px; letter-spacing: .035em; }
+    .brand span { display: block; margin-top: 3px; color: #d4e3f8; font-size: 12px; }
+    .topbar-note { color: #d4e3f8; font-size: 12px; }
+    main { max-width: 1160px; margin: 30px auto 60px; padding: 0 24px; }
+    .intro { margin-bottom: 21px; }
+    .intro h1 { margin: 0; color: var(--navy-deep); font-size: clamp(24px, 4vw, 31px); letter-spacing: -.035em; }
+    .intro p { margin: 7px 0 0; color: var(--muted); font-size: 14px; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1fr) 290px; gap: 20px; align-items: start; }
+    .form-column { min-width: 0; }
+    .card, .side-card {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+      box-shadow: 0 5px 18px #1a35500a;
+    }
+    .card { margin-bottom: 16px; padding: 23px; }
+    .section-heading { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 20px; }
+    .step {
+      width: 30px; height: 30px; display: grid; flex: none; place-items: center;
+      border-radius: 9px; background: var(--blue-pale); color: var(--blue); font-size: 13px; font-weight: 800;
+    }
+    .section-heading h2 { margin: 1px 0 4px; color: var(--navy-deep); font-size: 16px; }
+    .section-heading p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 17px 16px; }
+    .field { min-width: 0; }
+    .field.full { grid-column: 1 / -1; }
+    label, .field-label { display: block; margin-bottom: 7px; color: #34445a; font-size: 12px; font-weight: 720; }
+    .optional { color: #8793a3; font-weight: 450; }
+    input[type="text"], input[type="date"], input[type="number"], select, textarea {
+      width: 100%; border: 1px solid #d4deea; border-radius: 8px; background: #fff;
+      color: var(--ink); padding: 10px 11px; outline: none; transition: border-color .15s, box-shadow .15s;
+    }
+    input[type="text"], input[type="date"], input[type="number"], select { min-height: 42px; }
+    textarea { min-height: 106px; resize: vertical; line-height: 1.55; }
+    textarea.tall { min-height: 145px; }
+    input:focus, select:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px #2769bb1a; }
+    .field-help { margin: 6px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .date-description { margin-top: 8px; color: var(--blue); font-size: 12px; font-weight: 700; }
+    .hours { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .suggestions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .suggestion {
+      min-height: 32px; border: 1px solid #d5e1f0; border-radius: 999px; padding: 6px 11px;
+      background: #f7faff; color: #32547d; font-size: 11px; font-weight: 650;
+    }
+    .suggestion:hover, .suggestion:focus-visible { border-color: var(--blue); background: var(--blue-pale); }
+    .teacher-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+    .teacher-option {
+      display: flex; align-items: center; gap: 9px; min-height: 42px; margin: 0;
+      border: 1px solid var(--line); border-radius: 8px; padding: 9px 10px;
+      color: #34445a; font-size: 12px; font-weight: 550; cursor: pointer;
+    }
+    .teacher-option:has(input:checked) { border-color: #8fb4e4; background: #f3f8ff; }
+    .teacher-option input { width: 15px; height: 15px; margin: 0; accent-color: var(--blue); }
+    .paeet-field { margin-top: 16px; }
+    .other-teacher { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: center; margin-top: 11px; }
+    .other-teacher label { margin: 0; display: flex; gap: 8px; align-items: center; font-size: 12px; }
+    .other-teacher input[type="checkbox"] { accent-color: var(--blue); }
+    .other-teacher input[type="text"]:disabled { background: #f7f8fa; color: #8994a3; }
+    .side-card { position: sticky; top: 18px; padding: 19px; }
+    .side-card h2 { margin: 0 0 8px; color: var(--navy-deep); font-size: 15px; }
+    .side-card > p { margin: 0 0 16px; color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .side-rule { height: 1px; margin: 16px 0; background: var(--line); }
+    .status { display: flex; align-items: center; gap: 8px; color: var(--green); font-size: 11px; line-height: 1.45; }
+    .status::before { content: ""; width: 7px; height: 7px; flex: none; border-radius: 50%; background: currentColor; }
+    .status.error { color: #ad3737; }
+    .action-button {
+      width: 100%; min-height: 44px; border: 0; border-radius: 8px; padding: 10px 13px;
+      color: #fff; background: var(--blue); font-size: 12px; font-weight: 750;
+      transition: background .15s, transform .15s;
+    }
+    .action-button:hover { background: #1f58a0; }
+    .action-button:active { transform: translateY(1px); }
+    .action-button.secondary { margin-top: 9px; border: 1px solid var(--line); background: #fff; color: var(--navy); }
+    .action-button.secondary:hover { background: #f6f8fb; }
+    .privacy-note { margin-top: 14px !important; margin-bottom: 0 !important; font-size: 11px !important; }
+    .print-document { display: none; }
+    .screen-reader { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+    @media (max-width: 820px) {
+      main { margin-top: 23px; }
+      .layout { grid-template-columns: 1fr; }
+      .side-card { position: static; }
+    }
+    @media (max-width: 560px) {
+      .topbar { padding: 17px 18px; }
+      .topbar-note { display: none; }
+      main { margin: 20px auto 38px; padding: 0 14px; }
+      .card { padding: 18px 15px; }
+      .grid { grid-template-columns: 1fr; gap: 15px; }
+      .field.full { grid-column: auto; }
+      .teacher-list { grid-template-columns: 1fr; }
+      .intro p { font-size: 13px; }
+    }
+
+    @page { size: A4; margin: 14mm 15mm 15mm; }
+    @media print {
+      html, body { width: auto; min-width: 0; margin: 0; background: #fff; color: #111; }
+      body > * { display: none !important; }
+      #print-document { display: block !important; font-family: Arial, Helvetica, sans-serif; font-size: 10pt; }
+      .print-head { display: grid; grid-template-columns: 55px 1fr; gap: 12px; align-items: center; margin-bottom: 12px; }
+      .print-crest { width: 55px; height: 55px; object-fit: contain; }
+      .print-agency { color: #17477c; font-size: 8pt; font-weight: 700; letter-spacing: .035em; }
+      .print-school { margin-top: 3px; font-size: 10pt; font-weight: 700; }
+      .print-address { margin-top: 3px; font-size: 8pt; }
+      .print-title { margin: 10px 0 3px; color: #111; text-align: center; font-size: 13pt; font-weight: 700; }
+      .print-subtitle { margin: 0 0 12px; text-align: center; font-size: 9pt; }
+      .print-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+      .print-table th, .print-table td { border: 1px solid #222; padding: 7px 8px; vertical-align: top; overflow-wrap: anywhere; }
+      .print-table th { width: 20%; text-align: left; background: #f1f3f5 !important; font-weight: 700; }
+      .print-table tr { break-inside: avoid; page-break-inside: avoid; }
+      .print-content { min-height: 22px; white-space: pre-wrap; }
+      .print-signatures-title { margin: 17px 0 8px; font-size: 10pt; font-weight: 700; }
+      .print-signatures { width: 100%; border-collapse: collapse; table-layout: fixed; }
+      .print-signatures td { width: 50%; height: 72px; padding: 8px 12px 5px; text-align: center; vertical-align: bottom; }
+      .signature-line { display: block; padding-top: 5px; border-top: 1px solid #222; font-size: 8pt; }
+      .signature-role { display: block; font-size: 7pt; }
+      .print-footer { margin-top: 8px; text-align: right; font-size: 7pt; color: #444; }
+      * { print-color-adjust: exact !important; -webkit-print-color-adjust: exact !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <img class="brand-crest" src="brasao-sp.png" alt="Brasão do Estado de São Paulo">
+        <div>
+          <strong>SECRETARIA DA EDUCAÇÃO</strong>
+          <span>Estado de São Paulo · Registro de ATPC</span>
+        </div>
+      </div>
+      <div class="topbar-note">EE PEI Professor Riolando Canno</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="intro">
+      <h1>Registro diário de ATPC</h1>
+      <p>Preencha a ata e prepare uma versão organizada para impressão, assinatura ou envio.</p>
+    </div>
+
+    <div class="layout">
+      <form class="form-column" id="atpc-form">
+        <section class="card" aria-labelledby="meeting-heading">
+          <div class="section-heading">
+            <span class="step">01</span>
+            <div><h2 id="meeting-heading">Identificação da reunião</h2><p>Data, tema e carga horária do encontro.</p></div>
+          </div>
+          <div class="grid">
+            <div class="field">
+              <label for="meeting-date">Data da ATPC</label>
+              <input id="meeting-date" name="meetingDate" type="date" required>
+              <div id="date-description" class="date-description" aria-live="polite"></div>
+            </div>
+            <div class="field">
+              <label for="theme">Tema <span class="optional">(1.9)</span></label>
+              <input id="theme" name="theme" type="text" placeholder="Tema principal da reunião">
+            </div>
+            <div class="field full">
+              <label>Carga horária / ATPC</label>
+              <div class="hours">
+                <div><label class="screen-reader" for="atpc-count">Quantidade de ATPCs</label><input id="atpc-count" name="atpcCount" type="number" min="0" step="0.5" placeholder="Quantidade de ATPCs"></div>
+                <div><label class="screen-reader" for="atpc-hours">Total de horas</label><input id="atpc-hours" name="atpcHours" type="number" min="0" step="0.5" placeholder="Total de horas"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="agenda-heading">
+          <div class="section-heading">
+            <span class="step">02</span>
+            <div><h2 id="agenda-heading">Pauta e alinhamentos</h2><p>Organize os tópicos e registre os combinados do grupo.</p></div>
+          </div>
+          <div class="grid">
+            <div class="field full">
+              <label for="agenda">Pauta <span class="optional">(2.0 · um tópico por linha)</span></label>
+              <textarea id="agenda" name="agenda" placeholder="• Primeiro tópico&#10;• Segundo tópico"></textarea>
+            </div>
+            <div class="field full">
+              <span class="field-label">Sugestões rápidas · clique para inserir nos alinhamentos</span>
+              <div class="suggestions" id="suggestions">
+                <button class="suggestion" type="button">Combinados para a semana</button>
+                <button class="suggestion" type="button">Combinados para o próximo bimestre</button>
+                <button class="suggestion" type="button">Passeios / Visitas Técnicas</button>
+                <button class="suggestion" type="button">Provas Bimestrais</button>
+                <button class="suggestion" type="button">Agenda / Gestão de Aula</button>
+                <button class="suggestion" type="button">Dispositivos / Plataforma AVA</button>
+                <button class="suggestion" type="button">Plano de Recuperação / Nota Paulista</button>
+              </div>
+            </div>
+            <div class="field full">
+              <label for="alignment">Alinhamentos e combinados</label>
+              <textarea id="alignment" name="alignment" placeholder="Registre os encaminhamentos e combinados da equipe."></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="minutes-heading">
+          <div class="section-heading">
+            <span class="step">03</span>
+            <div><h2 id="minutes-heading">Registro da ata</h2><p>Os textos sugeridos podem ser editados conforme a reunião.</p></div>
+          </div>
+          <div class="grid">
+            <div class="field full">
+              <label for="minutes">ATA <span class="optional">(2.1)</span></label>
+              <textarea class="tall" id="minutes" name="minutes">Planejamento Escolar e Recuperação - Realizada discussão sobre</textarea>
+            </div>
+            <div class="field full">
+              <label for="follow-up">DESDOBRAMENTO <span class="optional">(2.2)</span></label>
+              <textarea class="tall" id="follow-up" name="followUp">O objetivo da reunião foi discutir ações relacionadas ao planejamento escolar para o próximo bimestre.</textarea>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="participants-heading">
+          <div class="section-heading">
+            <span class="step">04</span>
+            <div><h2 id="participants-heading">Participantes e assinaturas</h2><p>Selecione os professores presentes. Cada participante terá espaço para assinatura.</p></div>
+          </div>
+          <div class="field">
+            <span class="field-label">Professores participantes</span>
+            <div class="teacher-list">
+              <label class="teacher-option"><input type="checkbox" name="teacher" value="Rosana Pereira De Oliveira"> Rosana Pereira De Oliveira</label>
+              <label class="teacher-option"><input type="checkbox" name="teacher" value="Ana Paula Zanetti Neves"> Ana Paula Zanetti Neves</label>
+              <label class="teacher-option"><input type="checkbox" name="teacher" value="Alexandre Balsanuf Cruz"> Alexandre Balsanuf Cruz</label>
+              <label class="teacher-option"><input type="checkbox" name="teacher" value="Gilberto Furtado Da Silva Gaspar Junior"> Gilberto Furtado Da Silva Gaspar Junior</label>
+              <label class="teacher-option"><input type="checkbox" name="teacher" value="Jerônimo Alves Soares Neto"> Jerônimo Alves Soares Neto</label>
+              <label class="teacher-option"><input type="checkbox" name="teacher" value="Mauro De Deus Neiva Brandao"> Mauro De Deus Neiva Brandao</label>
+              <label class="teacher-option"><input type="checkbox" name="teacher" value="Rafaela Almeida E Silva"> Rafaela Almeida E Silva</label>
+              <label class="teacher-option"><input type="checkbox" name="teacher" value="Jeferson Luis Ligeiro"> Jeferson Luis Ligeiro</label>
+              <label class="teacher-option"><input type="checkbox" name="teacher" value="Willyan Vieira da Cruz"> Willyan Vieira da Cruz</label>
+            </div>
+            <div class="field paeet-field">
+              <label for="paeet">PAEET responsável pela reunião</label>
+              <select id="paeet" name="paeet" required>
+                <option value="Willyan Vieira da Cruz">Willyan Vieira da Cruz</option>
+                <option value="Rosana Pereira De Oliveira">Rosana Pereira De Oliveira</option>
+              </select>
+              <p class="field-help">Curso: <span id="paeet-course"></span></p>
+            </div>
+            <div class="other-teacher">
+              <label for="other-teacher-enabled"><input id="other-teacher-enabled" type="checkbox" name="otherTeacherEnabled"> Outro</label>
+              <input id="other-teacher" name="otherTeacher" type="text" placeholder="Nome do(a) professor(a)" disabled>
+            </div>
+            <p class="field-help">Direção, coordenação pedagógica e PAEET selecionado também serão incluídos na folha de assinaturas.</p>
+          </div>
+        </section>
+      </form>
+
+      <aside class="side-card" aria-label="Ações do documento">
+        <h2>Pronto para registrar?</h2>
+        <p>Gere a ata em formato A4. Na janela de impressão, escolha uma impressora ou “Salvar como PDF”.</p>
+        <button class="action-button" id="print-button" type="button">Gerar PDF / Imprimir</button>
+        <button class="action-button secondary" id="share-button" type="button">Compartilhar ou enviar por e-mail</button>
+        <div class="side-rule"></div>
+        <div class="status" id="save-status" role="status" aria-live="polite">Rascunho salvo neste dispositivo.</div>
+        <p class="privacy-note">Os dados são salvos localmente no navegador e organizados por data. Não são enviados a um servidor.</p>
+      </aside>
+    </div>
+  </main>
+
+  <section id="print-document" class="print-document" aria-label="Ata de ATPC para impressão">
+    <div class="print-head">
+      <img class="print-crest" src="brasao-sp.png" alt="Brasão do Estado de São Paulo">
+      <div>
+        <div class="print-agency">DIRETORIA DE ENSINO DE REGIÃO DE DIADEMAS</div>
+        <div class="print-school">ESCOLA ESTADUAL PEI PROFESSOR RIOLANDO CANNO</div>
+        <div class="print-address">R. Tapuias, 509 - Conceição, Diadema - SP, 09990-280 | Telefone: (11) 4056-7092</div>
+      </div>
+    </div>
+    <h1 class="print-title" id="print-title">ATPC - Ensino Técnico Desenvolvimento de Sistemas</h1>
+    <p class="print-subtitle">PAEET: <span id="print-paeet"></span></p>
+    <table class="print-table">
+      <tbody>
+        <tr><th>Data</th><td id="print-date" class="print-content"></td></tr>
+        <tr><th>Tema (1.9)</th><td id="print-theme" class="print-content"></td></tr>
+        <tr><th>Pauta (2.0)</th><td id="print-agenda" class="print-content"></td></tr>
+        <tr><th>Carga horária / ATPC</th><td id="print-hours" class="print-content"></td></tr>
+        <tr><th>Alinhamentos</th><td id="print-alignment" class="print-content"></td></tr>
+        <tr><th>ATA (2.1)</th><td id="print-minutes" class="print-content"></td></tr>
+        <tr><th>DESDOBRAMENTO (2.2)</th><td id="print-follow-up" class="print-content"></td></tr>
+        <tr><th>Professores participantes</th><td id="print-teachers" class="print-content"></td></tr>
+      </tbody>
+    </table>
+    <h2 class="print-signatures-title">Assinaturas</h2>
+    <table class="print-signatures"><tbody id="print-signature-rows"></tbody></table>
+    <div class="print-footer">EE PEI Professor Riolando Canno · Registro de ATPC</div>
+  </section>
+
+  <script>
+    (() => {
+      const form = document.getElementById("atpc-form");
+      const dateInput = document.getElementById("meeting-date");
+      const dateDescription = document.getElementById("date-description");
+      const saveStatus = document.getElementById("save-status");
+      const otherTeacherEnabled = document.getElementById("other-teacher-enabled");
+      const otherTeacherInput = document.getElementById("other-teacher");
+      const paeetInput = document.getElementById("paeet");
+      const storagePrefix = "atpc-riolando-draft-v1:";
+      const fieldNames = ["theme", "atpcCount", "atpcHours", "agenda", "alignment", "minutes", "followUp", "otherTeacher", "paeet"];
+      let activeDraftDate = "";
+      let loadingDraft = false;
+
+      const getLocalDate = () => {
+        const now = new Date();
+        const offset = now.getTimezoneOffset() * 60000;
+        return new Date(now.getTime() - offset).toISOString().slice(0, 10);
+      };
+
+      const formatLongDate = (value) => {
+        if (!value) return "";
+        const [year, month, day] = value.split("-").map(Number);
+        const date = new Date(year, month - 1, day, 12);
+        const formatted = new Intl.DateTimeFormat("pt-BR", {
+          weekday: "long", day: "numeric", month: "long", year: "numeric"
+        }).format(date);
+        return formatted.charAt(0).toLocaleUpperCase("pt-BR") + formatted.slice(1);
+      };
+
+      const setSaveStatus = (message, isError) => {
+        saveStatus.textContent = message;
+        saveStatus.classList.toggle("error", isError);
+      };
+
+      const updateDateDescription = () => {
+        dateDescription.textContent = formatLongDate(dateInput.value);
+      };
+
+      const collectDraft = () => ({
+        fields: Object.fromEntries(fieldNames.map((name) => [name, form.elements.namedItem(name).value])),
+        teachers: Array.from(form.querySelectorAll('input[name="teacher"]:checked'), (input) => input.value),
+        otherTeacherEnabled: otherTeacherEnabled.checked
+      });
+
+      const saveDraft = (date) => {
+        if (!date || loadingDraft) return;
+        try {
+          localStorage.setItem(storagePrefix + date, JSON.stringify(collectDraft()));
+          setSaveStatus("Rascunho salvo neste dispositivo.", false);
+        } catch (error) {
+          setSaveStatus("Não foi possível salvar o rascunho neste navegador.", true);
+          console.error("Falha ao salvar o rascunho da ATPC:", error);
+        }
+      };
+
+      const loadDraft = (date) => {
+        loadingDraft = true;
+        form.reset();
+        dateInput.value = date;
+        otherTeacherEnabled.checked = false;
+        otherTeacherInput.disabled = true;
+        let saved = null;
+        try {
+          saved = localStorage.getItem(storagePrefix + date);
+        } catch (error) {
+          setSaveStatus("Não foi possível acessar o armazenamento deste navegador.", true);
+          console.error("Falha ao acessar o rascunho da ATPC:", error);
+        }
+        if (saved) {
+          try {
+            const draft = JSON.parse(saved);
+            for (const [name, value] of Object.entries(draft.fields || {})) {
+              const field = form.elements.namedItem(name);
+              if (field && typeof value === "string") field.value = value;
+            }
+            const legacyTeacherNames = {
+              "Ana Paula": "Ana Paula Zanetti Neves",
+              "Alexandre": "Alexandre Balsanuf Cruz",
+              "Gilberto": "Gilberto Furtado Da Silva Gaspar Junior",
+              "Jeronimo": "Jerônimo Alves Soares Neto",
+              "Mauro": "Mauro De Deus Neiva Brandao",
+              "Rosana": "Rosana Pereira De Oliveira",
+              "Rafaela": "Rafaela Almeida E Silva",
+              "Jefferson": "Jeferson Luis Ligeiro"
+            };
+            const selectedTeachers = new Set(
+              (Array.isArray(draft.teachers) ? draft.teachers : [])
+                .map((name) => legacyTeacherNames[name] || name)
+            );
+            for (const checkbox of form.querySelectorAll('input[name="teacher"]')) {
+              checkbox.checked = selectedTeachers.has(checkbox.value);
+            }
+            otherTeacherEnabled.checked = draft.otherTeacherEnabled === true;
+          } catch (error) {
+            setSaveStatus("O rascunho salvo não pôde ser lido; os campos foram iniciados em branco.", true);
+            console.error("Falha ao ler o rascunho da ATPC:", error);
+          }
+        }
+        otherTeacherInput.disabled = !otherTeacherEnabled.checked;
+        loadingDraft = false;
+        activeDraftDate = date;
+        updateDateDescription();
+      };
+
+      const addPrintText = (id, value, emptyText = "—") => {
+        document.getElementById(id).textContent = value.trim() || emptyText;
+      };
+
+      const courseNameForPaeet = () => paeetInput.value === "Rosana Pereira De Oliveira"
+        ? "Ensino Técnico em Vendas/Técnico em Logística"
+        : "Ensino Técnico Desenvolvimento de Sistemas";
+
+      const updatePaeetCourse = () => {
+        document.getElementById("paeet-course").textContent = courseNameForPaeet();
+      };
+
+      const selectedTeachers = () => {
+        const teachers = Array.from(form.querySelectorAll('input[name="teacher"]:checked'), (input) => input.value);
+        const extra = otherTeacherEnabled.checked ? otherTeacherInput.value.trim() : "";
+        if (extra && !teachers.some((name) => name.toLocaleLowerCase("pt-BR") === extra.toLocaleLowerCase("pt-BR"))) {
+          teachers.push(extra);
+        }
+        return teachers;
+      };
+
+      const buildPrintDocument = () => {
+        const teachers = selectedTeachers();
+        const count = form.elements.namedItem("atpcCount").value.trim();
+        const hours = form.elements.namedItem("atpcHours").value.trim();
+        addPrintText("print-date", formatLongDate(dateInput.value));
+        addPrintText("print-paeet", form.elements.namedItem("paeet").value);
+        addPrintText("print-title", `ATPC - ${courseNameForPaeet()}`);
+        addPrintText("print-theme", form.elements.namedItem("theme").value);
+        addPrintText("print-agenda", form.elements.namedItem("agenda").value);
+        addPrintText("print-hours", [count && `${count} ATPC(s)`, hours && `${hours} hora(s)`].filter(Boolean).join(" · "));
+        addPrintText("print-alignment", form.elements.namedItem("alignment").value);
+        addPrintText("print-minutes", form.elements.namedItem("minutes").value);
+        addPrintText("print-follow-up", form.elements.namedItem("followUp").value);
+        addPrintText("print-teachers", teachers.join(", "));
+
+        const signatories = [
+          { name: "Maria Aparecida Frizao Silva", role: "Diretor(a)" },
+          { name: "Erica Aparecida Almeida Sampaio", role: "Coordenador(a)" },
+          { name: form.elements.namedItem("paeet").value, role: "PAEET" },
+          ...teachers.map((name) => ({ name, role: "Professor(a)" }))
+        ];
+        const rows = document.getElementById("print-signature-rows");
+        rows.replaceChildren();
+        for (let index = 0; index < signatories.length; index += 2) {
+          const row = document.createElement("tr");
+          for (const signatory of signatories.slice(index, index + 2)) {
+            const cell = document.createElement("td");
+            const line = document.createElement("span");
+            line.className = "signature-line";
+            const name = document.createElement("span");
+            name.textContent = signatory.name;
+            const role = document.createElement("span");
+            role.className = "signature-role";
+            role.textContent = signatory.role;
+            line.append(name, role);
+            cell.append(line);
+            row.append(cell);
+          }
+          if (signatories.length - index === 1) row.append(document.createElement("td"));
+          rows.append(row);
+        }
+      };
+
+      dateInput.value = getLocalDate();
+      loadDraft(dateInput.value);
+      updatePaeetCourse();
+      paeetInput.addEventListener("change", updatePaeetCourse);
+      dateInput.addEventListener("change", () => {
+        saveDraft(activeDraftDate);
+        loadDraft(dateInput.value);
+        saveDraft(activeDraftDate);
+      });
+      updateDateDescription();
+
+      form.addEventListener("input", () => saveDraft(activeDraftDate));
+      form.addEventListener("change", () => saveDraft(activeDraftDate));
+
+      otherTeacherEnabled.addEventListener("change", () => {
+        otherTeacherInput.disabled = !otherTeacherEnabled.checked;
+        if (!otherTeacherEnabled.checked) otherTeacherInput.value = "";
+        saveDraft(activeDraftDate);
+      });
+
+      document.getElementById("suggestions").addEventListener("click", (event) => {
+        const button = event.target.closest("button");
+        if (!button) return;
+        const alignment = form.elements.namedItem("alignment");
+        const current = alignment.value.trimEnd();
+        alignment.value = current ? `${current}\n• ${button.textContent}` : `• ${button.textContent}`;
+        alignment.focus();
+        saveDraft(activeDraftDate);
+      });
+
+      document.getElementById("print-button").addEventListener("click", () => {
+        if (!dateInput.value) {
+          dateInput.focus();
+          setSaveStatus("Selecione uma data para gerar a ata.", true);
+          return;
+        }
+        buildPrintDocument();
+        window.print();
+      });
+
+      document.getElementById("share-button").addEventListener("click", async () => {
+        const teachers = selectedTeachers();
+        const subject = `Ata de ATPC - ${formatLongDate(dateInput.value)}`;
+        const body = [
+          `ATPC - ${courseNameForPaeet()}`,
+          `EE PEI Professor Riolando Canno · ${formatLongDate(dateInput.value)}`,
+          `PAEET: ${form.elements.namedItem("paeet").value}`,
+          `Tema: ${form.elements.namedItem("theme").value || "—"}`,
+          `Pauta: ${form.elements.namedItem("agenda").value || "—"}`,
+          `Participantes: ${teachers.join(", ") || "—"}`,
+          "",
+          "Para gerar o PDF, use “Gerar PDF / Imprimir” e escolha “Salvar como PDF”."
+        ].join("\n");
+        if (navigator.share) {
+          try {
+            await navigator.share({ title: subject, text: body });
+          } catch (error) {
+            if (error.name !== "AbortError") {
+              setSaveStatus("Não foi possível abrir o compartilhamento do dispositivo.", true);
+              console.error("Falha ao compartilhar a ata:", error);
+            }
+          }
+        } else {
+          window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
